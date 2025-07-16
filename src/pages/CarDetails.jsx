@@ -8,6 +8,7 @@ const CarDetails = () => {
   const {id}=useParams()
   const navigate=useNavigate()
   const[car,setCar]=useState(null)
+  const currency=import.meta.env.VITE_CURRENCY
 
   useEffect(()=>{
     setCar(dummyCarData.find(car=>car._id))
@@ -63,7 +64,23 @@ const CarDetails = () => {
           </div>
         </div>
 
-        <form action=""></form>
+        <form className='shadow-lg h-max sticky top-18 rounded-xl p-6 space-y-6 text-gray-500'>
+          <p className='flex items-center justify-between text-2xl text-gray-800 font-semibold'>{currency}{car.pricePerDay} <span className='text-base text-gray-400 font-normal'>per day</span></p>
+
+          <hr className='border-borderColor my-6' />
+
+          <div className='flex flex-col  gap-2'>
+                <label htmlFor="pickup-date">Pick-up Date</label>
+                <input type="date" id='pickup-date' min={new Date().toISOString().split('T')[0]}  className='border border-borderColor px-3 py-2 rounded-lg'  required />
+          </div>
+          <div className='flex flex-col  gap-2'>
+                <label htmlFor="return-date">Return Date</label>
+                <input type="date" id='return-date' min={new Date().toISOString().split('T')[0]}  className='border border-borderColor px-3 py-2 rounded-lg'  required />
+          </div>
+          <button className='w-full bg-primery hover:bg-primery-dull transition-all py-3 font-medium text-white rounded-xl cursor-pointer'>Book Now</button>
+
+          <p className='text-center text-sm'>No credit card required te reserve</p>
+        </form>
       </div>
     </div>
   ):<Loader/>
