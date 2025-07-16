@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { assets, dummyCarData } from '../assets/assets'
+import Loader from '../components/Loader'
 
 const CarDetails = () => {
 
@@ -40,9 +41,11 @@ const CarDetails = () => {
                   {text}
                 </div>
               ))}
-              <div>
+              
+            </div>
+            <div>
                 <h1 className='text-xl font-medium mb-3'>Description</h1>
-                <p className='text-green-500'>{car.description}</p>
+                <p className='text-gray-500'>{car.description}</p>
               </div>
               <div>
                 <h1 className='text-xl font-medium mb-3'>Features</h1>
@@ -57,14 +60,13 @@ const CarDetails = () => {
                   }
                 </ul>
               </div>
-            </div>
           </div>
         </div>
 
         <form action=""></form>
       </div>
     </div>
-  ):<p>loading...</p>
+  ):<Loader/>
 }
 
 export default CarDetails
