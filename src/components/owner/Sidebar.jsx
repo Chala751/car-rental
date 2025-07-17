@@ -33,7 +33,7 @@ const Sidebar = () => {
       <div className='w-full'>
         {ownerMenuLinks.map((link,index)=>(
             <NavLink key={index} to={link.path} className={` relative flex items-center gap-2 w-full py-3 pl-4 first:mt-6 ${link.path === location.pathname ? 'bg-primery/10 text-primery' : 'text-gray-600'}`}>
-                <img src={linkpath === location.pathname ? link.coloredIcon : link.icon} alt="car icon" />
+                <img src={link.path === location.pathname ? link.coloredIcon : link.icon} alt="car icon" />
                 <span className='max-md:hidden'>{link.name}</span>
                 <div className={`${link.path === location.pathname && 'bg-primery'} w-1.5 h-8 rounded-l right-0 absolute`}></div>
             </NavLink>
