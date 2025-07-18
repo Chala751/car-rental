@@ -70,6 +70,34 @@ const AddCar = () => {
           </div>
         </div>
         
+         <div className=' grid grid-cols-1 md:grid-cols-2 gap-6'>
+          <div className=' flex flex-col w-full'>
+            <label >Transmission</label>
+            <select value={car.transmission} onChange={e=>setCar({...car, transmission: e.target.value})} className='px-3 py-2 mt-1 border border-borderColor rounded-md outline-none'>
+              <option value="">Select a Transmission</option>
+              <option value="Automatic">Automatic</option>
+              <option value="Manual">Manual</option>
+              <option value="Semi-Atomatic">Semi-Atomatic</option>
+            </select>
+          </div>
+          
+          <div className=' flex flex-col w-full'>
+            <label >Fuel Type</label>
+            <select value={car.fuel_type} onChange={e=>setCar({...car, fuel_type: e.target.value})} className='px-3 py-2 mt-1 border border-borderColor rounded-md outline-none'>
+              <option value="">Select a fuel type</option>
+              <option value="Gas">Gas</option>
+              <option value="Diesel">Diesel</option>
+              <option value="Petrol">Petrol</option>
+              <option value="Electric">Eletric</option>
+              <option value="Hybrid">Hybrid</option>
+            </select>
+          </div>
+
+          <div className=' flex flex-col w-full'>
+            <label >Seating Capacity</label>
+            <input type="number" placeholder='4' required className=' px-3 py-2 mt-1 border border-borderColor rounded-md outline-none' value={car.seating_capacity} onChange={e=>setCar({...car, seating_capacity: e.target.value})} />
+          </div>
+         </div>
       </form>
     </div>
   )
