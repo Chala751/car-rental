@@ -98,6 +98,27 @@ const AddCar = () => {
             <input type="number" placeholder='4' required className=' px-3 py-2 mt-1 border border-borderColor rounded-md outline-none' value={car.seating_capacity} onChange={e=>setCar({...car, seating_capacity: e.target.value})} />
           </div>
          </div>
+
+         <div className=' flex flex-col w-full'>
+            <label >Location</label>
+            <select value={car.location} onChange={e=>setCar({...car, location: e.target.value})} className='px-3 py-2 mt-1 border border-borderColor rounded-md outline-none'>
+              <option value="">Select a location</option>
+              <option value="New York">New York</option>
+              <option value="Los Angeles">Los Angeles</option>
+              <option value="Houston">Houston</option>
+              <option value="Chicago">Chicago</option>
+            </select>
+          </div>
+
+          <div className=' flex flex-col w-full'>
+            <label >Description</label>
+            <textarea rows={5} placeholder='eg.it is a powerful engine ' required className=' px-3 py-2 mt-1 border border-borderColor rounded-md outline-none' value={car.description} onChange={e=>setCar({...car, description: e.target.value})} ></textarea>
+          </div>
+
+          <button className=' flex items-center gap-2 px-4 py-2.5 mt-4 bg-primery text-white rounded-md font-medium w-max cursor-pointer'>
+            <img src={assets.tick_icon} alt="" />
+            List your Car
+          </button>
       </form>
     </div>
   )
