@@ -48,3 +48,38 @@ export const addCar=async(req,res)=>{
         res.json({success: flase, message: error.message})
     }
 }
+
+//api to list owner cars
+export const getOwnerCars=async(res,req)=>{
+    try {
+        const {_id}=req.user;
+        const cars=await Car.find({owner: _id})
+         res.json({success: true, cars})
+    } catch (error) {
+        console.log(error.message)
+        res.json({success: flase, message: error.message})
+    }
+}
+
+//api to toggle  car avaliablity
+export const toggleCarAvailability=async(res,req)=>{
+    try {
+        const {_id}=req.user;
+        const {carId}=req.body;
+        const car=await Car.findById(carId)
+
+        //checking is car belongs to user
+        if (car.owner.toString() !== _id.toString()) {
+            res.json({success: flase, message:"Unauthorized"})
+        }
+
+        car.isAvaliable= !car.isAvaliable;
+        await car.save()
+
+
+        res.json({success: true, message:"Availability Toggled"})
+    } catch (error) {
+        console.log(error.message)
+        res.json({success: flase, message: error.message})
+    }
+}
