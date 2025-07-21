@@ -88,3 +88,24 @@ export const getOwnerBookings=async(res,req)=>{
         res.json({success: flase, message: error.message})
     }
 }
+
+//api to change booking status
+export const changeBookingStatus=async(res,req)=>{
+    try {
+        const {_id}=req.user;
+        const {bookingId, status}=req.body;
+        const booking=await Booking.findById(bookingId)
+
+        if (booking.owner.toString() !== _id.toString()) {
+            return  res.json({success: flase, message: "Unauthorized"})
+        }
+        
+        booking.status=status;
+        await booking.save();
+
+        res.json({success: true, message: "Status Updated"})
+    } catch (error) {
+        console.log(error.message)
+        res.json({success: flase, message: error.message})
+    }
+}
