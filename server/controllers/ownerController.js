@@ -107,3 +107,19 @@ export const deleteCar=async(res,req)=>{
         res.json({success: flase, message: error.message})
     }
 }
+
+//api to get dashboard data 
+export const getDashboardData=async(res,req)=>{
+    try {
+        const {_id,role}=req.user;
+    
+        if (role != 'owner') {
+          return res.json({success: flase, message:"Unauthorized"})
+        }
+
+        const cars=await Car.find({owner:_id})
+    } catch (error) {
+        console.log(error.message)
+        res.json({success: flase, message: error.message})
+    }
+}
