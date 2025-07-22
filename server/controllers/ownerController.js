@@ -140,3 +140,38 @@ export const getDashboardData=async(res,req)=>{
         res.json({success: flase, message: error.message})
     }
 }
+
+//api to update user image
+export const updateUserImage =async(req,res)=>{
+    try {
+        const {_id}=req.user;
+
+        const imageFile=req.file;
+
+        //upload image to imagekit
+        const fileBuffer=fs.readFileSync(imageFile.path)
+        const response=await imagekit.upload({
+            file: fileBuffer,
+            fileName: imageFile.originalname,
+            folder: '/users'
+        })
+
+        // optimize through imagekit  URL transformation
+        var optimizedImageUrl = imagekit.url({
+          path : response.filePath,
+          transformation : [
+            { width : "400" },
+            {quality :"auto"},
+            {format :"webp"}
+            ]
+        });
+
+        const image=optimizedImageUrl;
+        await User.findOneAndUpdate(_id,{ image})
+        res.json({success: true, message: "Image updated"})
+
+    } catch (error) {
+        console.log(error.message)
+        res.json({success: flase, message: error.message})
+    }
+}
