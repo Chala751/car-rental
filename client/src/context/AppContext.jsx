@@ -14,7 +14,7 @@ export const AppProvider=({children})=>{
     const currency=import.meta.env.VITE_CURRENCY
 
     const [token,setToken]=useState(null)
-    const [use,setUser]=useState(null)
+    const [user,setUser]=useState(null)
     const [isOwner,setIsOwner]=useState(false)
     const [showLogin,setShowLogin]=useState(false)
     const [pickupDate,setPickupDate]=useState('')
@@ -47,6 +47,16 @@ export const AppProvider=({children})=>{
         }
     }
 
+    //function  to log out the user
+    const logout=()=>{
+        localStorage.removeItem('token')
+        setToken(null)
+        setUser(null)
+        setIsOwner(false)
+        axios.defaults.headers.common['Authorization']=''
+        toast.success('you have been logged out')
+    }
+
     //useEffect to retrive the token from  localstorage
     useEffect(()=>{
         const token=localStorage.getItem('token')
@@ -64,7 +74,10 @@ export const AppProvider=({children})=>{
 
 
     const value={
-        navigate,currency,
+        navigate,currency,axios,user,setUser,token,setToken,
+        isOwner,setIsOwner,fetchUser,showLogin,setShowLogin,
+        logout,fetchCars,cars,setCars,pickupDate,setPickupDate,
+        returnDate,setReturnDate
     }
 
     return(
