@@ -1,4 +1,4 @@
-import {  createContext, useContext, useState } from "react";
+import {  createContext, useContext, useEffect, useState } from "react";
 import axios from 'axios'
 import {toast} from 'react-hot-toast'
 import { useNavigate } from "react-router-dom";
@@ -36,6 +36,20 @@ export const AppProvider=({children})=>{
             toast.error(error.message)
         }
     }
+
+    //useEffect to retrive the token from  localstorage
+    useEffect(()=>{
+        const token=localStorage.getItem('token')
+        setToken(token)
+    },[])
+
+    //useEffect to fetch user data when token is available
+    useEffect((token)=>{
+        if (token) {
+            axios.defaults.headers.common['Authorization']=`${token}`
+            fetchUser()
+        }
+    },[token])
 
 
     const value={
