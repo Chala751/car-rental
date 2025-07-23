@@ -37,10 +37,21 @@ export const AppProvider=({children})=>{
         }
     }
 
+    // function to fetch all cars from the server
+    const fetchCars=async()=>{
+        try {
+            const {data}=await axios.get('/api/user/cars')
+            data.success? setCars(data.cars) : toast.error(data.message)
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
+
     //useEffect to retrive the token from  localstorage
     useEffect(()=>{
         const token=localStorage.getItem('token')
         setToken(token)
+        fetchCars()
     },[])
 
     //useEffect to fetch user data when token is available
