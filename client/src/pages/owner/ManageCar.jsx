@@ -1,17 +1,34 @@
 import React, { useEffect, useState } from 'react'
-import { assets, dummyCarData } from '../../assets/assets'
+import { assets } from '../../assets/assets'
 import Title from '../../components/owner/Title'
+import { useAppContext } from '../../context/AppContext'
+import toast from 'react-hot-toast'
 
 const ManageCar = () => {
-  const currency=import.meta.env.VITE_CURRENCY
+  const {isOwner,axios,currency}=useAppContext()
+
 
   const[cars,setCars]=useState([])
   const fetchOwnerCars=async()=>{
-    setCars(dummyCarData)
-  }
+    try {
+          const {data}=await axios.get('/api/owner/cars')
+
+          if (data.success) {
+            setCars(data.cars)
+          } else {
+            toast.error(data.message)
+          }
+        } catch (error) {
+          toast.error(error.message)
+        }
+   }
+  
+  
   useEffect(()=>{
-    fetchOwnerCars()
-  },[])
+    isOwner && fetchOwnerCars()
+  },[isOwner])
+
+
   return (
     <div className=' px-4 py-10 md:px-10 w-full'>
       <Title title="Manage Cars" subTitle="View all listed cars, update their details, or remove them from the booking platform."/>
@@ -55,6 +72,6 @@ const ManageCar = () => {
       </div>
     </div>
   )
-}
 
+}
 export default ManageCar
