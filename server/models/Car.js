@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 const {ObjectId}=mongoose.Schema.Types
 
 const carSchema = new mongoose.Schema({
-    name: {type: ObjectId, ref: 'User'},
+    owner: { type: ObjectId, ref: 'User', required: true },
     brand: {type: String, required: true},
     model: {type: String, required: true},
     image: {type: String, required: true},

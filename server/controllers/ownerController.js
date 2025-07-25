@@ -18,7 +18,7 @@ export const changeRoleToOwner =async(req,res)=>{
         res.json({success: true, message: "now you can list your cars"})
     } catch (error) {
         console.log(error.message)
-        res.json({success: flase, message: error.message})
+        res.json({success: false, message: error.message})
     }
 }
 
@@ -53,24 +53,24 @@ export const addCar=async(req,res)=>{
 
     } catch (error) {
         console.log(error.message)
-        res.json({success: flase, message: error.message})
+        res.json({success: false, message: error.message})
     }
 }
 
 //api to list owner cars
-export const getOwnerCars=async(res,req)=>{
+export const getOwnerCars=async(req,res)=>{
     try {
         const {_id}=req.user;
         const cars=await Car.find({owner: _id})
          res.json({success: true, cars})
     } catch (error) {
         console.log(error.message)
-        res.json({success: flase, message: error.message})
+        res.json({success: false, message: error.message})
     }
 }
 
 //api to toggle  car avaliablity
-export const toggleCarAvailability=async(res,req)=>{
+export const toggleCarAvailability=async(req,res)=>{
     try {
         const {_id}=req.user;
         const {carId}=req.body;
@@ -78,7 +78,7 @@ export const toggleCarAvailability=async(res,req)=>{
 
         //checking is car belongs to user
         if (car.owner.toString() !== _id.toString()) {
-            res.json({success: flase, message:"Unauthorized"})
+            res.json({success: false, message:"Unauthorized"})
         }
 
         car.isAvaliable= !car.isAvaliable;
@@ -88,12 +88,12 @@ export const toggleCarAvailability=async(res,req)=>{
         res.json({success: true, message:"Availability Toggled"})
     } catch (error) {
         console.log(error.message)
-        res.json({success: flase, message: error.message})
+        res.json({success: false, message: error.message})
     }
 }
 
 //api to delete car 
-export const deleteCar=async(res,req)=>{
+export const deleteCar=async(req,res)=>{
     try {
         const {_id}=req.user;
         const {carId}=req.body;
@@ -101,7 +101,7 @@ export const deleteCar=async(res,req)=>{
 
         //checking is car belongs to user
         if (car.owner.toString() !== _id.toString()) {
-            res.json({success: flase, message:"Unauthorized"})
+            res.json({success: false, message:"Unauthorized"})
         }
 
         car.owner= null;
@@ -112,17 +112,17 @@ export const deleteCar=async(res,req)=>{
         res.json({success: true, message:"Car Removed"})
     } catch (error) {
         console.log(error.message)
-        res.json({success: flase, message: error.message})
+        res.json({success: false, message: error.message})
     }
 }
 
 //api to get dashboard data 
-export const getDashboardData=async(res,req)=>{
+export const getDashboardData=async(req,res)=>{
     try {
         const {_id,role}=req.user;
     
         if (role != 'owner') {
-          return res.json({success: flase, message:"Unauthorized"})
+          return res.json({success: false, message:"Unauthorized"})
         }
 
         const cars=await Car.find({owner:_id})
@@ -141,10 +141,10 @@ export const getDashboardData=async(res,req)=>{
             recentBookings: bookings.slice(0,3),
             monthlyRevenue
         }
-        res.json({success: flase, dashboardData})
+        res.json({success: true, dashboardData})
     } catch (error) {
         console.log(error.message)
-        res.json({success: flase, message: error.message})
+        res.json({success: false, message: error.message})
     }
 }
 
