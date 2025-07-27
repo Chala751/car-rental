@@ -34,29 +34,29 @@ export const checkAvailabilityOfCar=async(res,req)=>{
 }
 
 //api to create booking
-export const createBooking=async(res,req)=>{
+export const createBooking=async(req,res)=>{
     try {
         const {_id}=req.user;
-        const {location, pickupDate,returnDate}=req.body;
+        const { car: carId, pickupDate, returnDate } = req.body;
 
-        const isAvaliable=await checkAvailability(car, pickupDate, returnDate)
+        const isAvaliable=await checkAvailability(carId, pickupDate, returnDate)
         if (!isAvaliable) {
             res.json({success: false, message: "Car ia not available"})
         }
 
-        const carData = await Car.findById(car)
+        const carData = await Car.findById(carId)
 
         const picked = new Date(pickupDate);
         const returned = new Date(returnDate);
         const noOfDays = Math.ceil((returned-picked)/(1000*60*60*24));
         const price = carData.pricePerDay*noOfDays;
 
-        await Booking.create({car, owner: carData.owner, user:_id, pickupDate, returnDate, price})
+        await Booking.create({car:carId, owner: carData.owner, user:_id, pickupDate, returnDate, price})
         res.json({success: true, message: "Booking Created"})
        
     } catch (error) {
         console.log(error.message)
-        res.json({success: flase, message: error.message})
+        res.json({success: false, message: error.message})
     }
 }
 
